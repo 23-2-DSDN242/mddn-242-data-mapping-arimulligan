@@ -4,13 +4,13 @@
 
 function saveArtworkImage(filename) {
   var offscreenCanvas = document.createElement('canvas');
-  offscreenCanvas.width = 1920;
-  offscreenCanvas.height = 1080;
+  offscreenCanvas.width = 1080;
+  offscreenCanvas.height = 1920;
   var context = offscreenCanvas.getContext('2d');
   // background is flat white
   context.fillStyle="#FFFFFF";
-  context.fillRect(0, 0, 1920, 1080);
-  context.drawImage(this.canvas, 0, 0, 1920, 1080);
+  context.fillRect(0, 0, 1080, 1920);
+  context.drawImage(this.canvas, 0, 0, 1080, 1920);
   // save to browser
   var downloadMime = 'image/octet-stream';
   var imageData = offscreenCanvas.toDataURL('image/png');
@@ -48,8 +48,8 @@ function saveBlocksImages() {
   context.fillRect(0, 0, 960, 540);
 
   // now scaledown
-  var crop_width = pd*1920;
-  var crop_height = pd*1080;
+  var crop_width = pd*1080;
+  var crop_height = pd*1920;
   context.drawImage(this.canvas, 0, 0, crop_width, crop_height, 0, 0, 960, 540);
 
   // save to browser
