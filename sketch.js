@@ -5,7 +5,7 @@ let renderCounter=0;
 // change these three lines as appropiate
 let sourceFile = "input_2.jpg";
 let maskFile   = "mask_2.png";
-let outputFile = "output_2.png";
+let outputFile = "output_1.png";
 
 function preload() {
   sourceImg = loadImage(sourceFile);
@@ -13,12 +13,12 @@ function preload() {
 }
 
 function setup () {
-  let main_canvas = createCanvas(1080, 1920);
+  let main_canvas = createCanvas(1080, 1440);
   main_canvas.parent('canvasContainer');
 
   imageMode(CENTER);
   noStroke();
-  background(255, 0, 0);
+  background(0, 0, 0);
   sourceImg.loadPixels();
   maskImg.loadPixels();
 }
@@ -30,13 +30,19 @@ function draw () {
     let pix = sourceImg.get(x, y);
     let mask = maskImg.get(x, y);
     fill(pix);
+    stroke(pix)
     if(mask[0] > 128) {
-      let pointSize = 10;
-      ellipse(x, y, pointSize, pointSize);
+      let pointSize = 2;
+      
+      for (let j =0; j< 50; j++){
+        rect(x+j, y, 10, pointSize);
+      }
+      
     }
     else {
-      let pointSize = 20;
-      rect(x, y, pointSize, pointSize);
+      let pointSize = 10;
+      strokeWeight(3);
+      line(x, y, x+pointSize, y);
     }
   }
   renderCounter = renderCounter + 1;
