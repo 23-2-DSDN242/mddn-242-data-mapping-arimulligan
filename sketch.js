@@ -3,8 +3,8 @@ let maskImg=null;
 let renderCounter=0;
 
 // change these three lines as appropiate
-let sourceFile = "input_2.jpg";
-let maskFile   = "mask_2.png";
+let sourceFile = "input_4.jpg";
+let maskFile   = "mask_4.png";
 let outputFile = "output_1.png";
 
 function preload() {
@@ -31,30 +31,20 @@ function draw () {
   let num_lines_to_draw = 40;
   for(let j=renderCounter; j<renderCounter+num_lines_to_draw && j<Y_STOP; j++) {
     for(let i=0; i<X_STOP; i++) {
-      let x = floor(random(sourceImg.width));
-      let y = floor(random(sourceImg.height));
       let pix;
       colorMode(RGB);
       let mask = maskImg.get(i, j);
       
       if (mask[1] > 128) {
         pix = sourceImg.get(i, j);
-        set(i, j, pix);
-
+        
         const c = color(pix);
         let redFilteredColor = color(red(c) + 100, green(c), blue(c));
-        drawingContext.shadowBlur = 20;
-        drawingContext.shadowColor = redFilteredColor;
-        stroke(redFilteredColor);
-        let pointSize = 2;
-      
-        // for (let j =0; j< 50; j++){
-        //   rect(x+j, y, 10, pointSize);
-        // }
-        
+
+        set(i, j, redFilteredColor);
       }
       else {
-        let wave = sin(i*4);
+        let wave = sin(i*6);
         let slip = map(wave, -1, 1, -OFFSET, OFFSET);
         pix = sourceImg.get(i+slip, j);
         let maskWave = maskImg.get(i+slip, j);
@@ -64,19 +54,11 @@ function draw () {
           pix = sourceImg.get(i, j);
         }
 
-        drawingContext.shadowBlur = 0;
         const c = color(pix);
         let blueFilteredColor = color(red(c), green(c), blue(c) + 100);
-        stroke(blueFilteredColor);
-        strokeWeight(3);
-        //line(x, y, x+pointSize, y);
         
-
-        // let brt = map(wave, -1, 1, 0, 255);
-        // for(let c=0; c<3; c++) {
-        //   pix[c] = brt;
-        // }
         set(i, j, pix);
+        set(i, j, blueFilteredColor);
       }
 
       
@@ -84,37 +66,46 @@ function draw () {
   }
   renderCounter = renderCounter + num_lines_to_draw;
   updatePixels();
-  // for(let i=0;i<4000;i++) {
-  //   let x = floor(random(sourceImg.width));
-  //   let y = floor(random(sourceImg.height));
-  //   let pix = sourceImg.get(x, y);
-  //   let mask = maskImg.get(x, y);
 
-  //   const c = color(pix);
-  //   let blueFilteredColor = color(red(c), green(c), blue(c) + 100);
-  //   let redFilteredColor = color(red(c) + 100, green(c), blue(c));
-
-  //   if(mask[0] > 128) {
-  //     drawingContext.shadowBlur = 20;
-  //     drawingContext.shadowColor = redFilteredColor;
-  //     stroke(redFilteredColor);
-  //     let pointSize = 2;
-      
-  //     for (let j =0; j< 50; j++){
-  //       rect(x+j, y, 10, pointSize);
-  //     }
-      
-  //   }
-  //   else {
-  //     drawingContext.shadowBlur = 0;
-  //     stroke(blueFilteredColor);
-  //     let pointSize = 10;
-  //     strokeWeight(3);
-  //     line(x, y, x+pointSize, y);
-  //   }
-  // }
-  // renderCounter = renderCounter + 1;
   if(renderCounter > Y_STOP) {
+
+    // adding second layer of decorative shapes
+    let change = true;
+    for(let i=0;i<400;i++) {
+      let x = floor(random(sourceImg.width));
+      let y = floor(random(sourceImg.height));
+      let pix = sourceImg.get(x, y);
+      let mask = maskImg.get(x, y);
+      const c = color(pix);
+      let blueFilteredColor = color(red(c), green(c), blue(c) + 200);
+      let redFilteredColor = color(red(c) + 100, green(c), blue(c));
+      noStroke();
+
+      let pointSize = 5;
+      drawingContext.shadowBlur = 0;
+
+      if (mask[0] < 128){
+        if (change == true){
+          fill(blueFilteredColor);
+          drawingContext.shadowColor = blueFilteredColor;
+          rect(x, y, 10, pointSize);
+          change = false;
+          console.log("b!")
+        } else {
+          fill(redFilteredColor);
+          drawingContext.shadowColor = redFilteredColor;
+          rect(x, y, 10, pointSize);
+          change = true;
+          console.log("r!")
+        }
+        
+        
+      }
+      
+      
+    }
+
+
     console.log("Done!")
     noLoop();
     // uncomment this to save the result
