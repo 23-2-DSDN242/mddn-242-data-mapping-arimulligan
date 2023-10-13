@@ -8,9 +8,9 @@ let Y_STOP = 1080;
 let DIAMETER = 11;
 
 // change these three lines as appropiate
-let sourceFile = "input_7.jpg";
-let maskFile   = "mask_7.png";
-let outputFile = "output_7.png";
+let sourceFile = "input_4.jpg";
+let maskFile   = "mask_4.png";
+let outputFile = "output_4.png";
 
 function preload() {
   sourceImg = loadImage(sourceFile);
@@ -155,7 +155,7 @@ function draw () {
     console.log("Done!")
     noLoop();
     // uncomment this to save the result
-    saveArtworkImage(outputFile);
+    // saveArtworkImage(outputFile);
   }
 }
 
